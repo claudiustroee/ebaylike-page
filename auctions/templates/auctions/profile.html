@@ -1,0 +1,113 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+    
+    <div class="jumbotron text-center">
+        
+        <h2 class="card-title h2">Profile</h2>
+        
+        <p class="blue-text my-4 font-weight-bold">Here you will find your accout info and your Watchlist.</p>
+        
+
+        <div class="row d-flex justify-content-center">
+            
+            <div class="col-xl-7 pb-2">
+                
+                <div class="container mt-5">
+                    
+                    <section class="text-center dark-grey-text">
+                        <div class="wrapper-carousel-fix">
+                            
+                            <div id="carousel-example-1" class="carousel no-flex testimonial-carousel slide carousel-fade" data-ride="carousel"
+                                data-interval="false">
+                                
+                                <div class="carousel-inner" role="listbox">
+                                    
+                                    <div class="carousel-item active">
+                                        <div class="testimonial">
+                                            
+                                            <div class="avatar mx-auto mb-4">
+                                                <img src="../../static/auctions/img/avatar-placeholder.png" style="width: 50%;" class="rounded-circle img-fluid"
+                                                alt="First sample avatar image">
+                                            </div>
+                                            
+                                            <h4 class="font-weight-bold">{{request.user.username}}</h4>
+                                            <h6 class="font-weight-bold my-3">{{request.user.email}}</h6>
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </section>
+                    
+                </div>
+                
+            </div>
+            
+        </div>
+        
+        <hr class="my-4">
+        <br>
+        <h4 class="card-title">Your Watchlist</h4>
+
+        {% if present %}
+            {% for item in product_list %}
+                
+                <br> <br>
+                <div class="card text-left">
+                    <a href="{% url 'viewlisting' item.id %}"><h5 class="card-header h5">{{item.title}}</h5></a>
+                    <div class="card-body">
+                        <h5 class="card-title">Seller : {{item.seller}}</h5>
+                        <p class="lead">Price : {{item.starting_bid}}</p>
+                        <p class="card-text">{{item.created_at}}</p>
+                    </div>
+                </div> 
+            {% endfor %}
+        {% else %}
+            <div class="text-center">
+                <br> <br> 
+                <p class="lead">No Listings Found</p> 
+            </div>
+        {% endif %}
+    </div>
+    
+    <div class="jumbotron text-center">
+        
+        <h2 class="card-title h2">Linsting you won</h2>
+        
+        <p class="black-text my-4 font-weight-bold">These are the Listings that you won.</p>
+        
+        <div class="row d-flex justify-content-center">
+            
+            <div class="col-xl-7 pb-2">
+                {% if not products %}
+                    <br>
+                    <h3>You did not win any Listings</h3>
+                {% else %}
+                    {% for product in products %}
+                        <br>
+                        
+                        <div class="card card-cascade" >
+                            
+                            <div class="card-body card-body-cascade text-center">
+                                
+                                <h4 class="card-title"><strong>{{product.title}}</strong></h4>
+                                <p class="font-weight-bold">You Won the auction.<br> </p>
+                                
+                                <p class="font-weight-bold">Seller : {{product.owner}} <br> </p>
+                                
+                                <p class="font-weight-bold">Winner : {{product.winner}} <br> </p>
+                                
+                                <p class="font-weight-bold">{{product.winprice}}$ <br> </p>
+                            </div>
+                        </div>
+                        
+                    {% endfor %}
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    
+{% endblock %}
